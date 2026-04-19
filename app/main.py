@@ -1,4 +1,5 @@
 ﻿import logging
+import os
 from uuid import uuid4
 
 from dotenv import load_dotenv
@@ -11,7 +12,9 @@ from services import process_request_async
 load_dotenv()
 
 # Configurar logging
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+debug_logging = os.getenv('DEBUG_LOGGING', 'false').lower() == 'true'
+log_level = logging.DEBUG if debug_logging else logging.INFO
+logging.basicConfig(level=log_level, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 app = FastAPI(title="Notification Service (Technical Test)")
